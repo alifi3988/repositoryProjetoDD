@@ -6,12 +6,14 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 
-@ToString
+import java.util.Arrays;
+
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Character {
+public class BuildCharacter {
 
     private Strength strength;
     private Dexterity dexterity;
@@ -23,7 +25,7 @@ public class Character {
     private int experiencePoints;
     private int level;
 
-    public Character(Strength strength, Dexterity dexterity, Constitution constitution, Intelligence intelligence, Wisdom wisdom, Charisma charisma, int experiencePoints) {
+    public BuildCharacter(Strength strength, Dexterity dexterity, Constitution constitution, Intelligence intelligence, Wisdom wisdom, Charisma charisma, int experiencePoints) {
         setStrength(strength);
         setDexterity(dexterity);
         setConstitution(constitution);
@@ -34,7 +36,7 @@ public class Character {
         setProficiencyBonusAndLevel(experiencePoints);
     }
 
-    public Character getSkils() {
+    public BuildCharacter getSkils() {
         return this;
     }
 
@@ -143,4 +145,57 @@ public class Character {
         }
         System.out.println("[END] - setProficiencyBonusAndLevel()");
     }
+
+    public boolean generateEnduranceTest(int difficultyValue, ModifyingSkillsEnum... modifyingSkillsEnums){
+
+        int proficiencyBonusAssistant = 0;
+
+        if((modifyingSkillsEnums.length == 1) &&
+                (modifyingSkillsEnums[0] == ModifyingSkillsEnum.NONE_SKILL)) {
+        }else{
+            proficiencyBonusAssistant = getProficiencyBonus();
+        }
+
+        return calculateValueEndurance(proficiencyBonusAssistant, modifyingSkillsEnums) >= difficultyValue;
+    }
+
+    public Integer calculateValueEndurance(int proficiencyBonusAssistant, ModifyingSkillsEnum... modifyingSkillsEnums){
+
+        int valueEndurance = 0;
+
+        for (ModifyingSkillsEnum skills: modifyingSkillsEnums) {
+            switch (skills) {
+                case ModifyingSkillsEnum.STRENGTH:
+                    valueEndurance = valueEndurance + getStrength().getModifier() + proficiencyBonusAssistant;
+                    break;
+                case ModifyingSkillsEnum.DEXTERITY:
+                    valueEndurance = valueEndurance + getDexterity().getModifier() + proficiencyBonusAssistant;
+                    break;
+                case ModifyingSkillsEnum.CONSTITUTION:
+                    valueEndurance = valueEndurance + getConstitution().getModifier() + proficiencyBonusAssistant;
+                    break;
+                case ModifyingSkillsEnum.INTELLIGENCE:
+                    valueEndurance = valueEndurance + getIntelligence().getModifier() + proficiencyBonusAssistant;
+                    break;
+                case ModifyingSkillsEnum.WISDOM:
+                    valueEndurance = valueEndurance + getWisdom().getModifier() + proficiencyBonusAssistant;
+                    break;
+                case ModifyingSkillsEnum.CHARISMA:
+                    valueEndurance = valueEndurance + getCharisma().getModifier() + proficiencyBonusAssistant;
+                    break;
+                case ModifyingSkillsEnum.ALL_SKILLS:
+                    valueEndurance = valueEndurance +
+                            getStrength().getModifier() + proficiencyBonusAssistant +
+                            getDexterity().getModifier() + proficiencyBonusAssistant +
+                            getConstitution().getModifier() + proficiencyBonusAssistant +
+                            getIntelligence().getModifier() + proficiencyBonusAssistant +
+                            getWisdom().getModifier() + proficiencyBonusAssistant +
+                            getCharisma().getModifier() + proficiencyBonusAssistant;
+                    break;
+            }
+        }
+        return valueEndurance;
+    }
+
+
 }

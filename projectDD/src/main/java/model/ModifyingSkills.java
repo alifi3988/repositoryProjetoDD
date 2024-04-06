@@ -15,22 +15,21 @@ public class ModifyingSkills {
     private int score;
     private int modifier;
 
-    public ModifyingSkills() {
-        this.score = 0;
-        this.modifier = 0;
-    }
+    public ModifyingSkills(){}
 
     public void calculateModifier(){
 
-        double calculationBaseModifier = (double) (this.score - 10) /2;
+        int scoreAssistant = getScore();
 
-        if (this.score % 2 != 0 && calculationBaseModifier < 0) {
+        double calculationBaseModifier = (double) (scoreAssistant - 10) /2;
+
+        if (scoreAssistant % 2 != 0 && calculationBaseModifier < 0) {
             int calculo = (int) Math.ceil(((calculationBaseModifier) * -1));
-            this.modifier = (-1 * calculo);
-        } else if (this.score % 2 != 0 && calculationBaseModifier >= 0) {
-            this.modifier = (int) Math.floor(calculationBaseModifier);
+            setModifier(-1 * calculo);
+        } else if (scoreAssistant % 2 != 0 && calculationBaseModifier >= 0) {
+            setModifier((int) Math.floor(calculationBaseModifier));
         }else{
-            this.modifier = (int) calculationBaseModifier;
+            setModifier((int) calculationBaseModifier);
         }
     }
 

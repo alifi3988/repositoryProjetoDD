@@ -1,28 +1,31 @@
 package br.com.estudos.decode.project;
 
-import model.Character;
+import model.BuildCharacter;
 import model.Charisma;
 import model.Constitution;
 import model.Dexterity;
 import model.Intelligence;
+import model.ModifyingSkillsEnum;
 import model.Strength;
 import model.Wisdom;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ProjectDdApplicationTests {
 
 	@Test
     public void shouldShowTheSkills () {
-		Character character = new Character();
-		System.out.println(character.getSkils());
+		BuildCharacter buildCharacter = new BuildCharacter();
+		System.out.println(buildCharacter);
 	}
 
 	@Test
 	public void shouldCalculateTheValueOfTheModifier (){
 
-		Character character = new Character(
+		BuildCharacter buildCharacter = new BuildCharacter(
                 new Strength(),
                 new Dexterity(),
                 new Constitution(),
@@ -32,36 +35,36 @@ public class ProjectDdApplicationTests {
 				0
         );
 
-		character.getStrength().setScore(15);
-		character.getStrength().calculateModifier();
+		buildCharacter.getStrength().setScore(15);
+		buildCharacter.getStrength().calculateModifier();
 
-		character.getDexterity().setScore(1);
-		character.getDexterity().calculateModifier();
+		buildCharacter.getDexterity().setScore(1);
+		buildCharacter.getDexterity().calculateModifier();
 
-		character.getConstitution().setScore(8);
-		character.getConstitution().calculateModifier();
+		buildCharacter.getConstitution().setScore(8);
+		buildCharacter.getConstitution().calculateModifier();
 
-		character.getIntelligence().setScore(22);
-		character.getIntelligence().calculateModifier();
+		buildCharacter.getIntelligence().setScore(22);
+		buildCharacter.getIntelligence().calculateModifier();
 
-		character.getWisdom().setScore(19);
-		character.getWisdom().calculateModifier();
+		buildCharacter.getWisdom().setScore(19);
+		buildCharacter.getWisdom().calculateModifier();
 
-		character.getCharisma().setScore(29);
-		character.getCharisma().calculateModifier();
+		buildCharacter.getCharisma().setScore(29);
+		buildCharacter.getCharisma().calculateModifier();
 
-		assertEquals(2, character.getStrength().getModifier());
-		assertEquals(-5, character.getDexterity().getModifier());
-		assertEquals(-1, character.getConstitution().getModifier());
-		assertEquals(6, character.getIntelligence().getModifier());
-		assertEquals(4, character.getWisdom().getModifier());
-		assertEquals(9, character.getCharisma().getModifier());
+		assertEquals(2, buildCharacter.getStrength().getModifier());
+		assertEquals(-5, buildCharacter.getDexterity().getModifier());
+		assertEquals(-1, buildCharacter.getConstitution().getModifier());
+		assertEquals(6, buildCharacter.getIntelligence().getModifier());
+		assertEquals(4, buildCharacter.getWisdom().getModifier());
+		assertEquals(9, buildCharacter.getCharisma().getModifier());
 	}
 
 	@Test
 	public void shouldCalculateProficiencyAndLevelBonusesByExperiencePointsInEveryInstance (){
 
-		Character characterPrimeiro = new Character(
+		BuildCharacter buildCharacterPrimeiro = new BuildCharacter(
 				new Strength(),
 				new Dexterity(),
 				new Constitution(),
@@ -70,10 +73,10 @@ public class ProjectDdApplicationTests {
 				new Charisma(),
 				381
 		);
-		assertEquals("Validação do nível: ", 2, characterPrimeiro.getLevel());
-		assertEquals("Validação do bonus de proficiência: ", 2, characterPrimeiro.getProficiencyBonus());
+		assertEquals("Validação do nível: ", 2, buildCharacterPrimeiro.getLevel());
+		assertEquals("Validação do bonus de proficiência: ", 2, buildCharacterPrimeiro.getProficiencyBonus());
 
-		Character characterSegundo = new Character(
+		BuildCharacter buildCharacterSegundo = new BuildCharacter(
 				new Strength(),
 				new Dexterity(),
 				new Constitution(),
@@ -82,8 +85,52 @@ public class ProjectDdApplicationTests {
 				new Charisma(),
 				85039
 		);
-		assertEquals("Validação do nível: ", 11, characterSegundo.getLevel());
-		assertEquals("Validação do bonus de proficiência: ", 4, characterSegundo.getProficiencyBonus());
+		assertEquals("Validação do nível: ", 11, buildCharacterSegundo.getLevel());
+		assertEquals("Validação do bonus de proficiência: ", 4, buildCharacterSegundo.getProficiencyBonus());
+	}
+
+	@Test
+	public void shouldPerformTheSavingThrowAsTrue () {
+
+		BuildCharacter buildCharacter = new BuildCharacter(
+				new Strength(10),
+				new Dexterity(15),
+				new Constitution(26),
+				new Intelligence(6),
+				new Wisdom(9),
+				new Charisma(10),
+				5601
+		);
+
+		boolean testResult = buildCharacter.generateEnduranceTest(
+				10,
+				ModifyingSkillsEnum.STRENGTH,
+				ModifyingSkillsEnum.CONSTITUTION,
+				ModifyingSkillsEnum.WISDOM);
+
+		assertTrue(testResult);
+	}
+
+	@Test
+	public void shouldPerformTheSavingThrowAsFalse () {
+
+		BuildCharacter buildCharacter = new BuildCharacter(
+				new Strength(10),
+				new Dexterity(15),
+				new Constitution(26),
+				new Intelligence(6),
+				new Wisdom(9),
+				new Charisma(10),
+				5601
+		);
+
+		boolean testResult = buildCharacter.generateEnduranceTest(
+				30,
+				ModifyingSkillsEnum.STRENGTH,
+				ModifyingSkillsEnum.CONSTITUTION,
+				ModifyingSkillsEnum.WISDOM);
+
+		assertFalse(testResult);
 	}
 
 }
