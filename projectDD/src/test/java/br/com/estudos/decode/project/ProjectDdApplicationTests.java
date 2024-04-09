@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class ProjectDdApplicationTests {
 
 	@Test
-    public void shouldShowTheSkills () throws ExceptionMensagen {
+    public void shouldNotShowTheSkills () throws ExceptionMensagen {
 		BuildCharacter buildCharacter = new BuildCharacter(
 				new Strength(),
 				new Dexterity(),
@@ -29,6 +29,25 @@ public class ProjectDdApplicationTests {
 				13,
 				6
 		);
+
+		System.out.println(buildCharacter);
+
+	}
+
+	@Test
+	public void shouldShowTheSkills () throws ExceptionMensagen {
+		BuildCharacter buildCharacter = new BuildCharacter(
+				new Strength(),
+				new Dexterity(),
+				new Constitution(),
+				new Intelligence(),
+				new Wisdom(),
+				new Charisma(),
+				13,
+				5
+		);
+
+		System.out.println(buildCharacter);
 
 	}
 
