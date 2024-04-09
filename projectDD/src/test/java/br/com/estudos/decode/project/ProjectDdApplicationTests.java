@@ -1,5 +1,6 @@
 package br.com.estudos.decode.project;
 
+import br.com.estudos.decode.project.exception.ExceptionMensagen;
 import model.BuildCharacter;
 import model.Charisma;
 import model.Constitution;
@@ -17,8 +18,33 @@ import static org.junit.Assert.assertTrue;
 public class ProjectDdApplicationTests {
 
 	@Test
-    public void shouldShowTheSkills () {
-		BuildCharacter buildCharacter = new BuildCharacter();
+    public void shouldShowTheSkills () throws ExceptionMensagen {
+		BuildCharacter buildCharacter = new BuildCharacter(
+				new Strength(),
+				new Dexterity(),
+				new Constitution(),
+				new Intelligence(),
+				new Wisdom(),
+				new Charisma(),
+				13,
+				6
+		);
+
+	}
+
+	@Test
+	public void shouldShowTheSkillsAndAttribute () {
+
+		BuildCharacter buildCharacter = new BuildCharacter(
+				new Strength(),
+				new Dexterity(),
+				new Constitution(),
+				new Intelligence(),
+				new Wisdom(),
+				new Charisma(),
+				0
+		);
+
 		System.out.println(buildCharacter);
 	}
 

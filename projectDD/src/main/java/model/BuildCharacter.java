@@ -1,12 +1,11 @@
 package model;
 
+import br.com.estudos.decode.project.exception.ExceptionMensagen;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.NoArgsConstructor;
-
-import java.util.Arrays;
 
 @Getter
 @Setter
@@ -36,8 +35,35 @@ public class BuildCharacter {
         setProficiencyBonusAndLevel(experiencePoints);
     }
 
+    public BuildCharacter(Strength strength, Dexterity dexterity, Constitution constitution, Intelligence intelligence, Wisdom wisdom, Charisma charisma, int level, int proficiencyBonus) throws ExceptionMensagen {
+
+        if(validateLevelAndProficiencyBonus(level, proficiencyBonus)) {
+            setStrength(strength);
+            setDexterity(dexterity);
+            setConstitution(constitution);
+            setIntelligence(intelligence);
+            setWisdom(wisdom);
+            setCharisma(charisma);
+            setExperiencePoints(0);
+            setLevel(level);
+            setProficiencyBonus(proficiencyBonus);
+        }else{
+             throw new ExceptionMensagen("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. \n Verificar Livro do Jogador - pag 15. ");
+        }
+
+    }
+
     public BuildCharacter getSkils() {
         return this;
+    }
+
+    public boolean validateLevelAndProficiencyBonus(int level, int proficiencyBonus){
+        if(level >= 1 && level <= 4 && proficiencyBonus == 2) return true;
+        else if (level >= 5 && level <= 8 && proficiencyBonus == 3) return true;
+        else if (level >= 9 && level <= 12 && proficiencyBonus == 4) return true;
+        else if (level >= 13 && level <= 16 && proficiencyBonus == 5) return true;
+        else if (level >= 17 && level <= 20 && proficiencyBonus == 6) return true;
+        return false;
     }
 
     public void setProficiencyBonusAndLevel(int experience){
