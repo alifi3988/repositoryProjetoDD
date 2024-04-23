@@ -61,17 +61,17 @@ public class BuildCharacter {
 
     public boolean generateEnduranceTest(int difficultyValue, ModifySkillsEnum... modifySkillsEnums) {
         int proficiencyBonusAssistant = 0;
-        if(!((modifySkillsEnums.length == 1) && (modifySkillsEnums[0] == ModifySkillsEnum.NONE_SKILL)))
+        if((modifySkillsEnums.length >= 1) && (!modifySkillsEnums[0].equals(ModifySkillsEnum.NONE_SKILL))) {
             proficiencyBonusAssistant = getProficiencyBonus();
+        }
         return calculateValueEndurance(proficiencyBonusAssistant, modifySkillsEnums) >= difficultyValue;
     }
 
     private Integer calculateValueEndurance(int proficiencyBonusAssistant, ModifySkillsEnum... modifySkillsEnums) {
 
         int valueEndurance = 0;
-
-        for (ModifySkillsEnum skills: modifySkillsEnums) {
-            switch (skills) {
+        for (ModifySkillsEnum skill: modifySkillsEnums) {
+            switch (skill) {
                 case ModifySkillsEnum.STRENGTH:
                     valueEndurance = valueEndurance + getStrength().getModifier() + proficiencyBonusAssistant;
                     break;
