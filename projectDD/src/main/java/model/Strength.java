@@ -3,7 +3,7 @@ package model;
 import lombok.ToString;
 
 @ToString
-public class Strength extends ModifyingSkills {
+public class Strength extends ModifySkills {
 
     public Strength() {
         setScore(0);
@@ -12,6 +12,5 @@ public class Strength extends ModifyingSkills {
 
     public Strength(int score){
         setScore(score);
-        calculateModifier();
     }
 }

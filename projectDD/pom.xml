@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.estudos.decode</groupId>
-	<artifactId>projectDD</artifactId>
+	<artifactId>projectFichaDoPersonagem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>projectDD</name>
 	<description>Projeto de estudo D&amp;D</description>
