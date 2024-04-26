@@ -10,6 +10,7 @@ import lombok.ToString;
 @ToString
 public class BuildCharacter {
 
+    private boolean inspiration;
     private final Strength strength;
     private final Dexterity dexterity;
     private final Constitution constitution;
@@ -21,6 +22,7 @@ public class BuildCharacter {
 
     public BuildCharacter(Strength strength, Dexterity dexterity, Constitution constitution, Intelligence intelligence, Wisdom wisdom, Charisma charisma, int level, int proficiencyBonus) throws ExceptionMensagen {
         if (validateLevelAndProficiencyBonus(level, proficiencyBonus)) {
+            this.inspiration = false;
             this.strength = strength;
             this.dexterity = dexterity;
             this.constitution = constitution;
@@ -59,38 +61,38 @@ public class BuildCharacter {
         return false;
     }
 
-    public boolean generateEnduranceTest(int difficultyValue, ModifySkillsEnum... modifySkillsEnums) {
+    public boolean generateEnduranceTest(int difficultyValue, AbilitiesModifierEnum... abilitiesModifierEnums) {
         int proficiencyBonusAssistant = 0;
-        if((modifySkillsEnums.length >= 1) && (!modifySkillsEnums[0].equals(ModifySkillsEnum.NONE_SKILL))) {
+        if((abilitiesModifierEnums.length >= 1) && (!abilitiesModifierEnums[0].equals(AbilitiesModifierEnum.NONE_ABILITIES))) {
             proficiencyBonusAssistant = getProficiencyBonus();
         }
-        return calculateValueEndurance(proficiencyBonusAssistant, modifySkillsEnums) >= difficultyValue;
+        return calculateValueEndurance(proficiencyBonusAssistant, abilitiesModifierEnums) >= difficultyValue;
     }
 
-    private Integer calculateValueEndurance(int proficiencyBonusAssistant, ModifySkillsEnum... modifySkillsEnums) {
+    private Integer calculateValueEndurance(int proficiencyBonusAssistant, AbilitiesModifierEnum... abilitiesModifierEnums) {
 
         int valueEndurance = 0;
-        for (ModifySkillsEnum skill: modifySkillsEnums) {
+        for (AbilitiesModifierEnum skill: abilitiesModifierEnums) {
             switch (skill) {
-                case ModifySkillsEnum.STRENGTH:
+                case AbilitiesModifierEnum.STRENGTH:
                     valueEndurance = valueEndurance + getStrength().getModifier() + proficiencyBonusAssistant;
                     break;
-                case ModifySkillsEnum.DEXTERITY:
+                case AbilitiesModifierEnum.DEXTERITY:
                     valueEndurance = valueEndurance + getDexterity().getModifier() + proficiencyBonusAssistant;
                     break;
-                case ModifySkillsEnum.CONSTITUTION:
+                case AbilitiesModifierEnum.CONSTITUTION:
                     valueEndurance = valueEndurance + getConstitution().getModifier() + proficiencyBonusAssistant;
                     break;
-                case ModifySkillsEnum.INTELLIGENCE:
+                case AbilitiesModifierEnum.INTELLIGENCE:
                     valueEndurance = valueEndurance + getIntelligence().getModifier() + proficiencyBonusAssistant;
                     break;
-                case ModifySkillsEnum.WISDOM:
+                case AbilitiesModifierEnum.WISDOM:
                     valueEndurance = valueEndurance + getWisdom().getModifier() + proficiencyBonusAssistant;
                     break;
-                case ModifySkillsEnum.CHARISMA:
+                case AbilitiesModifierEnum.CHARISMA:
                     valueEndurance = valueEndurance + getCharisma().getModifier() + proficiencyBonusAssistant;
                     break;
-                case ModifySkillsEnum.ALL_SKILLS:
+                case AbilitiesModifierEnum.ALL_ABILITIES:
                     valueEndurance = valueEndurance +
                             getStrength().getModifier() + proficiencyBonusAssistant +
                             getDexterity().getModifier() + proficiencyBonusAssistant +

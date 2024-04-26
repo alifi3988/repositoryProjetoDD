@@ -3,7 +3,7 @@ package model;
 import lombok.ToString;
 
 @ToString
-public class Charisma extends ModifySkills {
+public class Charisma extends AbilitiesModifier {
 
     public Charisma() {
         setScore(0);
