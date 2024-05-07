@@ -3,7 +3,7 @@ package model;
 import lombok.ToString;
 
 @ToString
-public class Dexterity extends ModifySkills {
+public class Dexterity extends AbilitiesModifier {
 
     public Dexterity() {
         setScore(0);

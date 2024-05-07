@@ -3,7 +3,7 @@ package model;
 import lombok.ToString;
 
 @ToString
-public class Constitution extends ModifySkills {
+public class Constitution extends AbilitiesModifier {
 
     public Constitution() {
         setScore(0);

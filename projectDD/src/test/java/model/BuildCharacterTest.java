@@ -39,31 +39,37 @@ public class BuildCharacterTest {
 	public void should_perform_the_saving_throw_as_true() {
 		Assert.assertTrue(buildCharacter.generateEnduranceTest(
                 3,
-                ModifySkillsEnum.STRENGTH,
-                ModifySkillsEnum.CONSTITUTION,
-                ModifySkillsEnum.WISDOM));
+                AbilitiesModifierEnum.STRENGTH,
+                AbilitiesModifierEnum.CONSTITUTION,
+                AbilitiesModifierEnum.WISDOM));
 	}
 
     @Test
     public void should_perform_the_saving_throw_as_false() {
         Assert.assertFalse(buildCharacter.generateEnduranceTest(
                 10,
-                ModifySkillsEnum.STRENGTH,
-                ModifySkillsEnum.CONSTITUTION,
-                ModifySkillsEnum.WISDOM));
+                AbilitiesModifierEnum.STRENGTH,
+                AbilitiesModifierEnum.CONSTITUTION,
+                AbilitiesModifierEnum.WISDOM));
     }
 
     @Test
     public void should_perform_the_saving_throw_as_modify_skills_enums_is_none_skill() {
         Assert.assertFalse(buildCharacter.generateEnduranceTest(
                 10,
-                ModifySkillsEnum.NONE_SKILL));
+                AbilitiesModifierEnum.NONE_ABILITIES));
     }
 
     @Test
     public void should_perform_the_saving_throw_as_modify_skills_enums_is_all_skill(){
         Assert.assertTrue(buildCharacter.generateEnduranceTest(
                 7,
-                ModifySkillsEnum.ALL_SKILLS));
+                AbilitiesModifierEnum.ALL_ABILITIES));
+    }
+
+
+    @Test
+    public void validation_exception_error() {
+
     }
 }

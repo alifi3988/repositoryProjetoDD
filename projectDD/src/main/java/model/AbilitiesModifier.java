@@ -1,26 +1,19 @@
 package model;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
+//https://online.visual-paradigm.com/w/wlraitjj/diagrams/#diagram:proj=0&import=draw.io&type=BlockDiagram
 @ToString
+@Getter
 @NoArgsConstructor
-public abstract class ModifySkills {
+public abstract class AbilitiesModifier {
 
     private int score;
+    @Setter
     private int modifier;
-
-    public int getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(int modifier) {
-        this.modifier = modifier;
-    }
-
-    public int getScore() {
-        return score;
-    }
 
     public void setScore(int score) {
         this.score = score;
