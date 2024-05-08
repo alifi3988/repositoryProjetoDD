@@ -1,6 +1,5 @@
 package model;
 
-import br.com.estudos.decode.project.exception.ExceptionMensagen;
 import jakarta.inject.Inject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,7 +11,7 @@ public class BuildCharacterTest {
     BuildCharacter buildCharacter;
 
     @Before
-    public void before() throws ExceptionMensagen {
+    public void before() throws Exception {
         this.buildCharacter = new BuildCharacter(
                 new Strength(10),
                 new Dexterity(15),
@@ -65,11 +64,5 @@ public class BuildCharacterTest {
         Assert.assertTrue(buildCharacter.generateEnduranceTest(
                 7,
                 AbilitiesModifierEnum.ALL_ABILITIES));
-    }
-
-
-    @Test
-    public void validation_exception_error() {
-
     }
 }

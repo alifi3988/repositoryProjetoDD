@@ -1,6 +1,5 @@
 package model;
 
-import br.com.estudos.decode.project.exception.ExceptionMensagen;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,7 +19,9 @@ public class BuildCharacter {
     private int proficiencyBonus;
     private int level;
 
-    public BuildCharacter(Strength strength, Dexterity dexterity, Constitution constitution, Intelligence intelligence, Wisdom wisdom, Charisma charisma, int level, int proficiencyBonus) throws ExceptionMensagen {
+    public BuildCharacter(Strength strength, Dexterity dexterity, Constitution constitution,
+                          Intelligence intelligence, Wisdom wisdom, Charisma charisma,
+                          int level, int proficiencyBonus) throws Exception {
         if (validateLevelAndProficiencyBonus(level, proficiencyBonus)) {
             this.inspiration = false;
             this.strength = strength;
@@ -31,25 +32,30 @@ public class BuildCharacter {
             this.charisma = charisma;
             this.level = level;
             this.proficiencyBonus = proficiencyBonus;
-        } else throw new
-                ExceptionMensagen("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. " +
-                "\nVerificar Livro do Jogador - pag 15. ");
+        } else {
+            throw new
+                    Exception("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. " +
+                    "\nVerificar Livro do Jogador - pag 15. ");
+        }
     }
 
-    public void setLevel(int level) throws ExceptionMensagen {
+    public void setLevel(int level) throws Exception {
         if (validateLevelAndProficiencyBonus(level, getProficiencyBonus())) {
             this.level = level;
-        } else throw new
-                ExceptionMensagen("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. " +
+        } else {
+            throw new
+                Exception("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. " +
                 "\nVerificar Livro do Jogador - pag 15. ");
+        }
     }
 
-    public void setProficiencyBonus(int proficiencyBonus) throws ExceptionMensagen {
+    public void setProficiencyBonus(int proficiencyBonus) throws Exception {
         if (validateLevelAndProficiencyBonus(getLevel(), proficiencyBonus)) {
             this.proficiencyBonus = proficiencyBonus;
-        } else throw new
-                ExceptionMensagen("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. " +
-                "\nVerificar Livro do Jogador - pag 15. ");
+        } else {
+            throw new Exception("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. " +
+                    "\nVerificar Livro do Jogador - pag 15. ");
+        }
     }
 
     public boolean validateLevelAndProficiencyBonus(int level, int proficiencyBonus) {
