@@ -34,14 +34,14 @@ public class BuildCharacterTest {
         Assert.assertEquals(false, buildCharacter.validateLevelAndProficiencyBonus(8, 2));
     }
 
-	@Test
-	public void should_perform_the_saving_throw_as_true() {
-		Assert.assertTrue(buildCharacter.generateEnduranceTest(
+    @Test
+    public void should_perform_the_saving_throw_as_true() {
+        Assert.assertTrue(buildCharacter.generateEnduranceTest(
                 3,
                 AbilitiesModifierEnum.STRENGTH,
                 AbilitiesModifierEnum.CONSTITUTION,
                 AbilitiesModifierEnum.WISDOM));
-	}
+    }
 
     @Test
     public void should_perform_the_saving_throw_as_false() {
@@ -60,9 +60,10 @@ public class BuildCharacterTest {
     }
 
     @Test
-    public void should_perform_the_saving_throw_as_modify_skills_enums_is_all_skill(){
+    public void should_perform_the_saving_throw_as_modify_skills_enums_is_all_skill() {
         Assert.assertTrue(buildCharacter.generateEnduranceTest(
                 7,
                 AbilitiesModifierEnum.ALL_ABILITIES));
     }
+
 }

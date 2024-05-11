@@ -6,11 +6,11 @@ import lombok.ToString;
 public class Dexterity extends AbilitiesModifier {
 
     public Dexterity() {
-        setScore(0);
+        setAttribute(0);
         setModifier(0);
     }
 
     public Dexterity(int score){
-        setScore(score);
+        setAttribute(score);
     }
 }

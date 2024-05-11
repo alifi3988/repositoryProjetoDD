@@ -8,16 +8,16 @@ import lombok.ToString;
 //https://online.visual-paradigm.com/w/wlraitjj/diagrams/#diagram:proj=0&import=draw.io&type=BlockDiagram
 @ToString
 @Getter
+@Setter
 @NoArgsConstructor
 public abstract class AbilitiesModifier {
 
-    private int score;
-    @Setter
+    private int attribute;
     private int modifier;
 
-    public void setScore(int score) {
-        this.score = score;
-        calculateModifier(score);
+    public void setAttribute(int attribute) {
+        this.attribute = attribute;
+        calculateModifier(attribute);
     }
 
     private void calculateModifier(int score) {

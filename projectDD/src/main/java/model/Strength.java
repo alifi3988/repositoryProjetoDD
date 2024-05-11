@@ -6,11 +6,11 @@ import lombok.ToString;
 public class Strength extends AbilitiesModifier {
 
     public Strength() {
-        setScore(0);
+        setAttribute(0);
         setModifier(0);
     }
 
     public Strength(int score){
-        setScore(score);
+        setAttribute(score);
     }
 }

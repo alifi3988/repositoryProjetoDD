@@ -6,11 +6,11 @@ import lombok.ToString;
 public class Constitution extends AbilitiesModifier {
 
     public Constitution() {
-        setScore(0);
+        setAttribute(0);
         setModifier(0);
     }
 
     public Constitution(int score){
-        setScore(score);
+        setAttribute(score);
     }
 }

@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BuildCharacter {
+public class BuildCharacter extends RaceCharacter {
 
     private boolean inspiration;
     private final Strength strength;
@@ -44,8 +44,8 @@ public class BuildCharacter {
             this.level = level;
         } else {
             throw new
-                Exception("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. " +
-                "\nVerificar Livro do Jogador - pag 15. ");
+                    Exception("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. " +
+                    "\nVerificar Livro do Jogador - pag 15. ");
         }
     }
 
@@ -59,7 +59,7 @@ public class BuildCharacter {
     }
 
     public boolean validateLevelAndProficiencyBonus(int level, int proficiencyBonus) {
-        if(level >= 1 && level <= 4 && proficiencyBonus == 2) return true;
+        if (level >= 1 && level <= 4 && proficiencyBonus == 2) return true;
         else if (level >= 5 && level <= 8 && proficiencyBonus == 3) return true;
         else if (level >= 9 && level <= 12 && proficiencyBonus == 4) return true;
         else if (level >= 13 && level <= 16 && proficiencyBonus == 5) return true;
@@ -69,16 +69,33 @@ public class BuildCharacter {
 
     public boolean generateEnduranceTest(int difficultyValue, AbilitiesModifierEnum... abilitiesModifierEnums) {
         int proficiencyBonusAssistant = 0;
-        if((abilitiesModifierEnums.length >= 1) && (!abilitiesModifierEnums[0].equals(AbilitiesModifierEnum.NONE_ABILITIES))) {
+        if ((abilitiesModifierEnums.length >= 1) && (!abilitiesModifierEnums[0].equals(AbilitiesModifierEnum.NONE_ABILITIES))) {
             proficiencyBonusAssistant = getProficiencyBonus();
         }
         return calculateValueEndurance(proficiencyBonusAssistant, abilitiesModifierEnums) >= difficultyValue;
     }
 
+    //TODO: preciso termianr isso
+    public void toAddRace(AbilitiesModifierEnum abilitiesModifierEnum, int bonus) {
+        if (!getAbilitiesAndBonus().containsKey(abilitiesModifierEnum)) {
+            getAbilitiesAndBonus().put(abilitiesModifierEnum, bonus);
+            AbilitiesModifier ability = abilitiesModifierEnum.createAbilityInstance();
+            ability.setAttribute(10); // não é assim
+        }
+    }
+
+    public void toAddSubRace(AbilitiesModifierEnum abilitiesModifierEnum, int bonus) {
+        getAbilitiesAndBonus().put(abilitiesModifierEnum, bonus);
+    }
+
+    private void calculationBonus() {
+
+    }
+
     private Integer calculateValueEndurance(int proficiencyBonusAssistant, AbilitiesModifierEnum... abilitiesModifierEnums) {
 
         int valueEndurance = 0;
-        for (AbilitiesModifierEnum skill: abilitiesModifierEnums) {
+        for (AbilitiesModifierEnum skill : abilitiesModifierEnums) {
             switch (skill) {
                 case AbilitiesModifierEnum.STRENGTH:
                     valueEndurance = valueEndurance + getStrength().getModifier() + proficiencyBonusAssistant;
@@ -111,115 +128,4 @@ public class BuildCharacter {
         }
         return valueEndurance;
     }
-
-//    private void setProficiencyBonusAndLevel(int experience) throws ExceptionMensagen {
-//
-//        int valorLevel = 0;
-//        int valorProficiencyBonus = 0;
-//
-//
-//        if (experience < 300){
-//            valorLevel = 1;
-//            valorProficiencyBonus = 2;
-//        }
-//
-//        if (experience >= 300 && experience < 900){
-//            valorLevel = 2;
-//            valorProficiencyBonus = 2;
-//        }
-//
-//        if (experience >= 900 && experience < 2700){
-//            valorLevel = 3;
-//            valorProficiencyBonus = 2;
-//        }
-//
-//        if (experience >= 2700 && experience < 6500){
-//            valorLevel = 4;
-//            valorProficiencyBonus = 2;
-//        }
-//
-//        if (experience >= 6500 && experience < 14000){
-//            valorLevel = 5;
-//            valorProficiencyBonus = 3;
-//        }
-//
-//        if (experience >= 14000 && experience < 23000){
-//            valorLevel = 6;
-//            valorProficiencyBonus = 3;
-//        }
-//
-//        if (experience >= 23000 && experience < 34000){
-//            valorLevel = 7;
-//            valorProficiencyBonus = 3;
-//        }
-//
-//        if (experience >= 34000 && experience < 48000){
-//            valorLevel = 8;
-//            valorProficiencyBonus = 3;
-//        }
-//
-//        if (experience >= 48000 && experience < 64000){
-//            valorLevel = 9;
-//            valorProficiencyBonus = 4;
-//        }
-//
-//        if (experience >= 64000 && experience < 85000){
-//            valorLevel = 10;
-//            valorProficiencyBonus = 4;
-//        }
-//
-//        if (experience >= 85000 && experience < 100000){
-//            valorLevel = 11;
-//            valorProficiencyBonus = 4;
-//        }
-//
-//        if (experience >= 100000 && experience < 120000){
-//            valorLevel = 12;
-//            valorProficiencyBonus = 4;
-//        }
-//
-//        if (experience >= 120000 && experience < 140000){
-//            valorLevel = 13;
-//            valorProficiencyBonus = 5;
-//        }
-//
-//        if (experience >= 140000 && experience < 165000){
-//            valorLevel = 14;
-//            valorProficiencyBonus = 5;
-//        }
-//
-//        if (experience >= 165000 && experience < 195000){
-//            valorLevel = 15;
-//            valorProficiencyBonus = 5;
-//        }
-//
-//        if (experience >= 195000 && experience < 225000){
-//            valorLevel = 16;
-//            valorProficiencyBonus = 5;
-//        }
-//
-//        if (experience >= 225000 && experience < 265000){
-//            valorLevel = 17;
-//            valorProficiencyBonus = 6;
-//        }
-//
-//        if (experience >= 265000 && experience < 305000){
-//            valorLevel = 18;
-//            valorProficiencyBonus = 6;
-//        }
-//
-//        if (experience >= 305000 && experience < 355000){
-//            valorLevel = 19;
-//            valorProficiencyBonus = 6;
-//        }
-//
-//        if (experience >= 355000){
-//            valorLevel = 20;
-//            valorProficiencyBonus = 6;
-//        }
-//
-//        setLevel(valorLevel);
-//        setProficiencyBonus(valorProficiencyBonus);
-//    }
-
 }
