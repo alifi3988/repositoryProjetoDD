@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-//https://online.visual-paradigm.com/w/wlraitjj/diagrams/#diagram:proj=0&import=draw.io&type=BlockDiagram
 @ToString
 @Getter
 @Setter

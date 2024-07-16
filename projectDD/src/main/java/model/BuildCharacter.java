@@ -4,21 +4,25 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @ToString
 public class BuildCharacter extends RaceCharacter {
 
     private boolean inspiration;
-    private final Strength strength;
-    private final Dexterity dexterity;
-    private final Constitution constitution;
-    private final Intelligence intelligence;
-    private final Wisdom wisdom;
-    private final Charisma charisma;
+    private Charisma charisma;
+    private Constitution constitution;
+    private Dexterity dexterity;
+    private Intelligence intelligence;
+    private Strength strength;
+    private Wisdom wisdom;
     private int proficiencyBonus;
     private int level;
 
+    //TODO: Uma observação importtante, no caso, ao definir o atributto para um atributo, no caso automaticamente é calculado o modifier
+    //TODO: Porém, com a inserção da raça, temos um acréscimo no valor de atributo e terá que ser recalculado o valor do modifier
     public BuildCharacter(Strength strength, Dexterity dexterity, Constitution constitution,
                           Intelligence intelligence, Wisdom wisdom, Charisma charisma,
                           int level, int proficiencyBonus) throws Exception {
@@ -75,21 +79,48 @@ public class BuildCharacter extends RaceCharacter {
         return calculateValueEndurance(proficiencyBonusAssistant, abilitiesModifierEnums) >= difficultyValue;
     }
 
-    //TODO: preciso termianr isso
-    public void toAddRace(AbilitiesModifierEnum abilitiesModifierEnum, int bonus) {
-        if (!getAbilitiesAndBonus().containsKey(abilitiesModifierEnum)) {
-            getAbilitiesAndBonus().put(abilitiesModifierEnum, bonus);
-            AbilitiesModifier ability = abilitiesModifierEnum.createAbilityInstance();
-            ability.setAttribute(10); // não é assim
-        }
+
+
+    //TODO: realizar uma trattiva de raça e sub
+    public void setRace(String nameRace, Map<AbilitiesModifierEnum, Integer> abilitiesAndValue) {
+        
+        getAbilitiesAndBonus().putAll(abilitiesAndValue);
+        setNameRace(nameRace);
+        atualizarValoresModifier(abilitiesAndValue);
     }
+    public void setSubRace(String nameSubRace, Map<AbilitiesModifierEnum, Integer> abilitiesAndValue) {
 
-    public void toAddSubRace(AbilitiesModifierEnum abilitiesModifierEnum, int bonus) {
-        getAbilitiesAndBonus().put(abilitiesModifierEnum, bonus);
+
+        getAbilitiesAndBonus().putAll(abilitiesAndValue);
+        setNameSubRace(nameSubRace);
+        atualizarValoresModifier(abilitiesAndValue);
     }
+    //TODO: NÃO FINALIZADO
 
-    private void calculationBonus() {
 
+
+    //TODO: realizar a validação do valor não pode passar de 20
+    private void atualizarValoresModifier(Map<AbilitiesModifierEnum, Integer> abilitiesAndValue) {
+       //recebe o atributo e o programa calcula
+        abilitiesAndValue.forEach((key,value) ->{
+
+            var abilitiesModifierAux = key.createAbilityInstance();
+
+            //refatorar os ifs | fazer algo funcional
+            if (abilitiesModifierAux instanceof Charisma) {
+                getCharisma().setAttribute(getCharisma().getAttribute() + value);
+            } if (abilitiesModifierAux instanceof Constitution) {
+                getConstitution().setAttribute(getConstitution().getAttribute() + value);
+            } if (abilitiesModifierAux instanceof Dexterity) {
+                getDexterity().setAttribute(getDexterity().getAttribute() + value);
+            } if (abilitiesModifierAux instanceof Intelligence) {
+                getIntelligence().setAttribute(getIntelligence().getAttribute() + value);
+            } if (abilitiesModifierAux instanceof Strength) {
+                getStrength().setAttribute(getStrength().getAttribute() + value);
+            } if (abilitiesModifierAux instanceof Wisdom) {
+                getWisdom().setAttribute(getWisdom().getAttribute() + value);
+            }
+        });
     }
 
     private Integer calculateValueEndurance(int proficiencyBonusAssistant, AbilitiesModifierEnum... abilitiesModifierEnums) {

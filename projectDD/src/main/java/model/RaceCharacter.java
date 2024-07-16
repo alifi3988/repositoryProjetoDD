@@ -6,6 +6,7 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO: mdoificar o nome da raça
 @Getter
 public abstract class RaceCharacter {
 

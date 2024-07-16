@@ -5,6 +5,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BuildCharacterTest {
 
     @Inject
@@ -64,6 +67,20 @@ public class BuildCharacterTest {
         Assert.assertTrue(buildCharacter.generateEnduranceTest(
                 7,
                 AbilitiesModifierEnum.ALL_ABILITIES));
+    }
+
+    @Test
+    public void should_validate_the_correct_abilities_from_meted_race(){
+
+        int atributeBefore = buildCharacter.getConstitution().getAttribute();
+
+        Map<AbilitiesModifierEnum, Integer> race = new HashMap<>();
+        race.put(AbilitiesModifierEnum.CONSTITUTION, 2);
+        buildCharacter.setRace("HUMANO", race);
+
+        int atributeAfter = buildCharacter.getConstitution().getAttribute();
+
+        Assert.assertEquals(atributeBefore + 2, atributeAfter);
     }
 
 }
