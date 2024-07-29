@@ -33,51 +33,28 @@ public class BuildCharacter extends RaceCharacter {
     //TODO: Porém, com a inserção da raça, temos um acréscimo no valor de atributo e terá que ser recalculado o valor do modifier
     public BuildCharacter(Strength strength, Dexterity dexterity, Constitution constitution,
                           Intelligence intelligence, Wisdom wisdom, Charisma charisma,
-                          int level, int proficiencyBonus) throws Exception {
-        if (validateLevelAndProficiencyBonus(level, proficiencyBonus)) {
-            this.inspiration = false;
-            this.strength = strength;
-            this.dexterity = dexterity;
-            this.constitution = constitution;
-            this.intelligence = intelligence;
-            this.wisdom = wisdom;
-            this.charisma = charisma;
-            this.level = level;
-            this.proficiencyBonus = proficiencyBonus;
-        } else {
-            throw new
-                    Exception("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. " +
-                    "\nVerificar Livro do Jogador - pag 15. ");
-        }
+                          int level) throws Exception {
+        this.inspiration = false;
+        this.strength = strength;
+        this.dexterity = dexterity;
+        this.constitution = constitution;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.charisma = charisma;
+        this.level = level;
+        updateProficiencyBonusByLevel(level);
     }
 
-    public void setLevel(int level) throws Exception {
-        if (validateLevelAndProficiencyBonus(level, getProficiencyBonus())) {
-            this.level = level;
-        } else {
-            throw new
-                    Exception("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. " +
-                    "\nVerificar Livro do Jogador - pag 15. ");
+    // Inserindo o valor de Bônus de Proficiência a partir do nível informado, conforme página 15 do Livro do Jogador
+    public void updateProficiencyBonusByLevel(int level) throws IllegalArgumentException {
+        if (level < 1 || level > 20) {
+            throw new IllegalArgumentException("Level must be between 1 and 20");
         }
-    }
-
-    public void setProficiencyBonus(int proficiencyBonus) throws Exception {
-        if (validateLevelAndProficiencyBonus(getLevel(), proficiencyBonus)) {
-            this.proficiencyBonus = proficiencyBonus;
-        } else {
-            throw new Exception("Erro! Valores de Nível e Bonus de Proficiência não estão corretos, de acordo com a tabela do Jogador. " +
-                    "\nVerificar Livro do Jogador - pag 15. ");
-        }
-    }
-
-    //TODO: Tem que vlidar quando por exemplo, no ínicio da criação do personagem que os valores de ambos serão 0 ?? algo assim
-    public boolean validateLevelAndProficiencyBonus(int level, int proficiencyBonus) {
-        if (level >= 1 && level <= 4 && proficiencyBonus == 2) return true;
-        else if (level >= 5 && level <= 8 && proficiencyBonus == 3) return true;
-        else if (level >= 9 && level <= 12 && proficiencyBonus == 4) return true;
-        else if (level >= 13 && level <= 16 && proficiencyBonus == 5) return true;
-        else if (level >= 17 && level <= 20 && proficiencyBonus == 6) return true;
-        return false;
+        if (level <= 4) setProficiencyBonus(2);
+        else if (level <= 8) setProficiencyBonus(3);
+        else if (level <= 12) setProficiencyBonus(4);
+        else if (level <= 16) setProficiencyBonus(5);
+        else setProficiencyBonus(6);
     }
 
     public boolean generateEnduranceTest(int difficultyValue, AbilitiesModifierEnum... abilitiesModifierEnums) {
@@ -88,14 +65,14 @@ public class BuildCharacter extends RaceCharacter {
         return calculateValueEndurance(proficiencyBonusAssistant, abilitiesModifierEnums) >= difficultyValue;
     }
 
-
     //TODO: realizar uma trattiva de raça e sub
     public void setRace(String nameRace, Map<AbilitiesModifierEnum, Integer> abilitiesAndValue) {
-        
+
         getAbilitiesAndBonus().putAll(abilitiesAndValue);
         setNameRace(nameRace);
         atualizarValoresModifier(abilitiesAndValue);
     }
+
     public void setSubRace(String nameSubRace, Map<AbilitiesModifierEnum, Integer> abilitiesAndValue) {
 
 
@@ -103,29 +80,31 @@ public class BuildCharacter extends RaceCharacter {
         setNameSubRace(nameSubRace);
         atualizarValoresModifier(abilitiesAndValue);
     }
-    //TODO: NÃO FINALIZADO
-
-
 
     //TODO: realizar a validação do valor não pode passar de 20
     private void atualizarValoresModifier(Map<AbilitiesModifierEnum, Integer> abilitiesAndValue) {
-       //recebe o atributo e o programa calcula
-        abilitiesAndValue.forEach((key,value) ->{
+        //recebe o atributo e o programa calcula
+        abilitiesAndValue.forEach((key, value) -> {
 
             var abilitiesModifierAux = key.createAbilityInstance();
 
             //refatorar os ifs | fazer algo funcional
             if (abilitiesModifierAux instanceof Charisma) {
                 getCharisma().setScore(getCharisma().getScore() + value);
-            } if (abilitiesModifierAux instanceof Constitution) {
+            }
+            if (abilitiesModifierAux instanceof Constitution) {
                 getConstitution().setScore(getConstitution().getScore() + value);
-            } if (abilitiesModifierAux instanceof Dexterity) {
+            }
+            if (abilitiesModifierAux instanceof Dexterity) {
                 getDexterity().setScore(getDexterity().getScore() + value);
-            } if (abilitiesModifierAux instanceof Intelligence) {
+            }
+            if (abilitiesModifierAux instanceof Intelligence) {
                 getIntelligence().setScore(getIntelligence().getScore() + value);
-            } if (abilitiesModifierAux instanceof Strength) {
+            }
+            if (abilitiesModifierAux instanceof Strength) {
                 getStrength().setScore(getStrength().getScore() + value);
-            } if (abilitiesModifierAux instanceof Wisdom) {
+            }
+            if (abilitiesModifierAux instanceof Wisdom) {
                 getWisdom().setScore(getWisdom().getScore() + value);
             }
         });

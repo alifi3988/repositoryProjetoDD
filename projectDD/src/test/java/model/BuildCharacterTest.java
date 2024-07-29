@@ -23,19 +23,27 @@ public class BuildCharacterTest {
                 new Intelligence(9),
                 new Wisdom(7),
                 new Charisma(1),
-                7,
-                3
+                7
         );
     }
 
     @Test
-    public void should_validate_level_and_proficiency_bonus_true() {
-        Assert.assertTrue(buildCharacter.validateLevelAndProficiencyBonus(7, 3));
+    public void should_validate_level_and_proficiency_bonus() {
+        buildCharacter.updateProficiencyBonusByLevel(7);
+        Assert.assertEquals(buildCharacter.getProficiencyBonus(), 3);
+
+        buildCharacter.updateProficiencyBonusByLevel(5);
+        Assert.assertEquals(buildCharacter.getProficiencyBonus(), 3);
+
+        buildCharacter.updateProficiencyBonusByLevel(14);
+        Assert.assertEquals(buildCharacter.getProficiencyBonus(), 5);
     }
 
     @Test
-    public void should_validate_level_and_proficiency_bonus_false() {
-        Assert.assertFalse(buildCharacter.validateLevelAndProficiencyBonus(8, 2));
+    public void should_test_update_proficiency_bonus_by_level_invalid_level() {
+        Assert.assertThrows(IllegalArgumentException.class, () -> {
+            buildCharacter.updateProficiencyBonusByLevel(21);
+        });
     }
 
     @Test
