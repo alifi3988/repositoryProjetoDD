@@ -1,4 +1,4 @@
-package model;
+package base;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,16 +9,18 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-public abstract class AbilitiesModifier {
+public abstract class AbilitiesScoreAndModifier {
 
-    private int attribute;
+    private int score;
     private int modifier;
 
-    public void setAttribute(int attribute) {
-        this.attribute = attribute;
-        calculateModifier(attribute);
+    //Setando o valor do score e depois realizando calculo do modificador da habilidade
+    public void setScore(int score) {
+        this.score = score;
+        calculateModifier(score);
     }
 
+    //método para realizar o calculo do modificador da habilidade
     private void calculateModifier(int score) {
 
         double calculationBaseModifier = (double) (score - 10) / 2;

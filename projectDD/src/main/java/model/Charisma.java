@@ -1,14 +1,15 @@
 package model;
 
+import base.AbilitiesScoreAndModifier;
 import lombok.ToString;
 
 @ToString
-public class Charisma extends AbilitiesModifier {
+public class Charisma extends AbilitiesScoreAndModifier {
 
     public Charisma() {
-        setAttribute(0);
+        setScore(0);
         setModifier(0);
     }
 
-    public Charisma(int score){ setAttribute(score); }
+    public Charisma(int score){ setScore(score); }
 }
