@@ -1,16 +1,17 @@
 package model;
 
+import base.AbilitiesScoreAndModifier;
 import lombok.ToString;
 
 @ToString
-public class Wisdom extends AbilitiesModifier {
+public class Wisdom extends AbilitiesScoreAndModifier {
 
     public Wisdom() {
-        setAttribute(0);
+        setScore(0);
         setModifier(0);
     }
 
     public Wisdom(int score){
-        setAttribute(score);
+        setScore(score);
     }
 }

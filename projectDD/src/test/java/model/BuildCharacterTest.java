@@ -1,5 +1,6 @@
 package model;
 
+import base.BuildCharacter;
 import jakarta.inject.Inject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,12 +30,12 @@ public class BuildCharacterTest {
 
     @Test
     public void should_validate_level_and_proficiency_bonus_true() {
-        Assert.assertEquals(true, buildCharacter.validateLevelAndProficiencyBonus(7, 3));
+        Assert.assertTrue(buildCharacter.validateLevelAndProficiencyBonus(7, 3));
     }
 
     @Test
     public void should_validate_level_and_proficiency_bonus_false() {
-        Assert.assertEquals(false, buildCharacter.validateLevelAndProficiencyBonus(8, 2));
+        Assert.assertFalse(buildCharacter.validateLevelAndProficiencyBonus(8, 2));
     }
 
     @Test
@@ -72,15 +73,15 @@ public class BuildCharacterTest {
     @Test
     public void should_validate_the_correct_abilities_from_meted_race(){
 
-        int atributeBefore = buildCharacter.getConstitution().getAttribute();
+        int beforeAtribute = buildCharacter.getConstitution().getScore();
 
         Map<AbilitiesModifierEnum, Integer> race = new HashMap<>();
         race.put(AbilitiesModifierEnum.CONSTITUTION, 2);
         buildCharacter.setRace("HUMANO", race);
 
-        int atributeAfter = buildCharacter.getConstitution().getAttribute();
+        int atributeAfter = buildCharacter.getConstitution().getScore();
 
-        Assert.assertEquals(atributeBefore + 2, atributeAfter);
+        Assert.assertEquals(beforeAtribute + 2, atributeAfter);
     }
 
 }

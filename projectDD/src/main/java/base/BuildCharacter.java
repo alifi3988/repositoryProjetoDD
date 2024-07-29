@@ -1,8 +1,16 @@
-package model;
+package base;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import model.AbilitiesModifierEnum;
+import model.Charisma;
+import model.Constitution;
+import model.Dexterity;
+import model.Intelligence;
+import model.RaceCharacter;
+import model.Strength;
+import model.Wisdom;
 
 import java.util.Map;
 
@@ -62,6 +70,7 @@ public class BuildCharacter extends RaceCharacter {
         }
     }
 
+    //TODO: Tem que vlidar quando por exemplo, no ínicio da criação do personagem que os valores de ambos serão 0 ?? algo assim
     public boolean validateLevelAndProficiencyBonus(int level, int proficiencyBonus) {
         if (level >= 1 && level <= 4 && proficiencyBonus == 2) return true;
         else if (level >= 5 && level <= 8 && proficiencyBonus == 3) return true;
@@ -78,7 +87,6 @@ public class BuildCharacter extends RaceCharacter {
         }
         return calculateValueEndurance(proficiencyBonusAssistant, abilitiesModifierEnums) >= difficultyValue;
     }
-
 
 
     //TODO: realizar uma trattiva de raça e sub
@@ -108,17 +116,17 @@ public class BuildCharacter extends RaceCharacter {
 
             //refatorar os ifs | fazer algo funcional
             if (abilitiesModifierAux instanceof Charisma) {
-                getCharisma().setAttribute(getCharisma().getAttribute() + value);
+                getCharisma().setScore(getCharisma().getScore() + value);
             } if (abilitiesModifierAux instanceof Constitution) {
-                getConstitution().setAttribute(getConstitution().getAttribute() + value);
+                getConstitution().setScore(getConstitution().getScore() + value);
             } if (abilitiesModifierAux instanceof Dexterity) {
-                getDexterity().setAttribute(getDexterity().getAttribute() + value);
+                getDexterity().setScore(getDexterity().getScore() + value);
             } if (abilitiesModifierAux instanceof Intelligence) {
-                getIntelligence().setAttribute(getIntelligence().getAttribute() + value);
+                getIntelligence().setScore(getIntelligence().getScore() + value);
             } if (abilitiesModifierAux instanceof Strength) {
-                getStrength().setAttribute(getStrength().getAttribute() + value);
+                getStrength().setScore(getStrength().getScore() + value);
             } if (abilitiesModifierAux instanceof Wisdom) {
-                getWisdom().setAttribute(getWisdom().getAttribute() + value);
+                getWisdom().setScore(getWisdom().getScore() + value);
             }
         });
     }

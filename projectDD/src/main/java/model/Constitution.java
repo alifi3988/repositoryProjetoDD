@@ -1,16 +1,17 @@
 package model;
 
+import base.AbilitiesScoreAndModifier;
 import lombok.ToString;
 
 @ToString
-public class Constitution extends AbilitiesModifier {
+public class Constitution extends AbilitiesScoreAndModifier {
 
     public Constitution() {
-        setAttribute(0);
+        setScore(0);
         setModifier(0);
     }
 
     public Constitution(int score){
-        setAttribute(score);
+        setScore(score);
     }
 }
