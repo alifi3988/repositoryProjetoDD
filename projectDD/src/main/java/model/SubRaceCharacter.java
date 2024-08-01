@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RaceCharacter extends BuildRace {
-
-    private SubRaceCharacter subRace;
+public class SubRaceCharacter extends BuildRace{
 
 }
