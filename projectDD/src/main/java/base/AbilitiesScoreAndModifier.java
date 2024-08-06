@@ -20,6 +20,10 @@ public abstract class AbilitiesScoreAndModifier {
         calculateModifier(score);
     }
 
+    public void updateScore(int score){
+        setScore(Math.min(getScore() + score, 20));
+    }
+
     //método para realizar o calculo do modificador da habilidade
     private void calculateModifier(int score) {
 

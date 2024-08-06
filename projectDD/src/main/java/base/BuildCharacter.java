@@ -17,7 +17,7 @@ import java.util.Map;
 @Getter
 @Setter
 @ToString
-public class BuildCharacter extends RaceCharacter {
+public class BuildCharacter {
 
     private boolean inspiration;
     private Charisma charisma;
@@ -28,12 +28,11 @@ public class BuildCharacter extends RaceCharacter {
     private Wisdom wisdom;
     private int proficiencyBonus;
     private int level;
+    private RaceCharacter race;
 
-    //TODO: Uma observação importtante, no caso, ao definir o atributto para um atributo, no caso automaticamente é calculado o modifier
-    //TODO: Porém, com a inserção da raça, temos um acréscimo no valor de atributo e terá que ser recalculado o valor do modifier
     public BuildCharacter(Strength strength, Dexterity dexterity, Constitution constitution,
                           Intelligence intelligence, Wisdom wisdom, Charisma charisma,
-                          int level) throws Exception {
+                          int level, RaceCharacter race) throws Exception {
         this.inspiration = false;
         this.strength = strength;
         this.dexterity = dexterity;
@@ -43,9 +42,12 @@ public class BuildCharacter extends RaceCharacter {
         this.charisma = charisma;
         this.level = level;
         updateProficiencyBonusByLevel(level);
+        this.race = race;
+
+        validateRaceAndSubRace();
+
     }
 
-    // Inserindo o valor de Bônus de Proficiência a partir do nível informado, conforme página 15 do Livro do Jogador
     public void updateProficiencyBonusByLevel(int level) throws IllegalArgumentException {
         if (level < 1 || level > 20) {
             throw new IllegalArgumentException("Level must be between 1 and 20");
@@ -65,47 +67,51 @@ public class BuildCharacter extends RaceCharacter {
         return calculateValueEndurance(proficiencyBonusAssistant, abilitiesModifierEnums) >= difficultyValue;
     }
 
-    //TODO: realizar uma trattiva de raça e sub
-    public void setRace(String nameRace, Map<AbilitiesModifierEnum, Integer> abilitiesAndValue) {
+    public void setRaceAndSubRace(RaceCharacter race) throws IllegalArgumentException {
 
-        getAbilitiesAndBonus().putAll(abilitiesAndValue);
-        setNameRace(nameRace);
-        atualizarValoresModifier(abilitiesAndValue);
+        //faz a primeira validação, se caso a raça está vazia, pois se caso não estiver, não pode subistituir ou sobrepor
+        if (!this.race.getName().isEmpty()) {
+            throw new IllegalArgumentException("Erro! Impossível sobrepor informações de raca dessa forma!");
+        }
+        this.race = race;
+        validateRaceAndSubRace();
     }
 
-    public void setSubRace(String nameSubRace, Map<AbilitiesModifierEnum, Integer> abilitiesAndValue) {
+    private void validateRaceAndSubRace(){
+        RaceCharacter raceAuxiliar = getRace();
 
+        updateValorModifier(raceAuxiliar.getAbilitiesAndBonus());
 
-        getAbilitiesAndBonus().putAll(abilitiesAndValue);
-        setNameSubRace(nameSubRace);
-        atualizarValoresModifier(abilitiesAndValue);
+        if (!raceAuxiliar.getSubRace().getName().isEmpty()) {
+            updateValorModifier(raceAuxiliar.getSubRace().getAbilitiesAndBonus());
+        }
     }
 
-    //TODO: realizar a validação do valor não pode passar de 20
-    private void atualizarValoresModifier(Map<AbilitiesModifierEnum, Integer> abilitiesAndValue) {
-        //recebe o atributo e o programa calcula
+    private void updateValorModifier(Map<AbilitiesModifierEnum, Integer> abilitiesAndValue) {
+
+        System.out.println("[updateValorModifier] abilitiesAndValue = " + abilitiesAndValue);
+
         abilitiesAndValue.forEach((key, value) -> {
 
             var abilitiesModifierAux = key.createAbilityInstance();
 
-            //refatorar os ifs | fazer algo funcional
             if (abilitiesModifierAux instanceof Charisma) {
-                getCharisma().setScore(getCharisma().getScore() + value);
+                getCharisma().updateScore(value);
             }
             if (abilitiesModifierAux instanceof Constitution) {
-                getConstitution().setScore(getConstitution().getScore() + value);
+                getConstitution().updateScore(value);
             }
             if (abilitiesModifierAux instanceof Dexterity) {
-                getDexterity().setScore(getDexterity().getScore() + value);
+                getDexterity().updateScore(value);
             }
             if (abilitiesModifierAux instanceof Intelligence) {
-                getIntelligence().setScore(getIntelligence().getScore() + value);
+                getIntelligence().updateScore(value);
             }
             if (abilitiesModifierAux instanceof Strength) {
-                getStrength().setScore(getStrength().getScore() + value);
+                getStrength().updateScore(value);
             }
             if (abilitiesModifierAux instanceof Wisdom) {
-                getWisdom().setScore(getWisdom().getScore() + value);
+                getWisdom().updateScore(value);
             }
         });
     }
