@@ -67,6 +67,16 @@ public class BuildCharacter {
         return calculateValueEndurance(proficiencyBonusAssistant, abilitiesModifierEnums) >= difficultyValue;
     }
 
+    public void setRaceAndSubRace(RaceCharacter race) throws IllegalArgumentException {
+
+        //faz a primeira validação, se caso a raça está vazia, pois se caso não estiver, não pode subistituir ou sobrepor
+        if (!this.race.getName().isEmpty()) {
+            throw new IllegalArgumentException("Erro! Impossível sobrepor informações de raca dessa forma!");
+        }
+        this.race = race;
+        validateRaceAndSubRace();
+    }
+
     private void validateRaceAndSubRace(){
         RaceCharacter raceAuxiliar = getRace();
 
@@ -77,8 +87,9 @@ public class BuildCharacter {
         }
     }
 
-    //TODO: realizar a validação do valor não pode passar de 20
     private void updateValorModifier(Map<AbilitiesModifierEnum, Integer> abilitiesAndValue) {
+
+        System.out.println("[updateValorModifier] abilitiesAndValue = " + abilitiesAndValue);
 
         abilitiesAndValue.forEach((key, value) -> {
 

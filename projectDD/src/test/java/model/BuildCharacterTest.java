@@ -24,7 +24,7 @@ public class BuildCharacterTest {
                 new Intelligence(9),
                 new Wisdom(7),
                 new Charisma(1),
-                7, new RaceCharacter()
+                7, fillInRaceAndSubRace()
         );
     }
 
@@ -79,19 +79,45 @@ public class BuildCharacterTest {
                 AbilitiesModifierEnum.ALL_ABILITIES));
     }
 
-//    @Test
-//    public void should_validate_the_correct_abilities_from_meted_race(){
-//
-//        int beforeAtribute = buildCharacter.getConstitution().getScore();
-//
-//        Map<AbilitiesModifierEnum, Integer> race = new HashMap<>();
-//        race.put(AbilitiesModifierEnum.CONSTITUTION, 2);
-//
-//        buildCharacter.setRace("HUMANO", race);
-//
-//        int atributeAfter = buildCharacter.getConstitution().getScore();
-//
-//        Assert.assertEquals(beforeAtribute + 2, atributeAfter);
-//    }
+    @Test
+    public void should_validate_exception_when_trying_to_override_race_with_information() {
 
+        IllegalArgumentException exception = Assert.assertThrows(IllegalArgumentException.class, () -> buildCharacter.setRaceAndSubRace(fillInRaceAndSubRace()));
+
+        Assert.assertEquals("Erro! Impossível sobrepor informações de raca dessa forma!", exception.getMessage());
+    }
+
+    @Test
+    public void should_validate_at_information_about_race_and_sub_race() {
+
+        RaceCharacter raceAux = buildCharacter.getRace();
+
+        Assert.assertEquals("AASIMAR", raceAux.getName());
+        Assert.assertEquals("Flagelo", raceAux.getSubRace().getName());
+    }
+
+    private RaceCharacter fillInRaceAndSubRace() {
+
+        RaceCharacter raceCharacter = new RaceCharacter();
+        raceCharacter.setName("AASIMAR");
+        HashMap<AbilitiesModifierEnum, Integer> bonusRace = new HashMap<>();
+        bonusRace.put(AbilitiesModifierEnum.CHARISMA, 2);
+        raceCharacter.setAbilitiesAndBonus(bonusRace);
+        HashMap<String, String> descritionRace = new HashMap<>();
+        descritionRace.put("Tendencia Comum", "Normalmente Boa, mas alguns deles rejeitam sua linhagem e caem para o mal.");
+        raceCharacter.setAdditional_data(descritionRace);
+
+        SubRaceCharacter subRaceCharacter = new SubRaceCharacter();
+        subRaceCharacter.setName("Flagelo");
+        HashMap<AbilitiesModifierEnum, Integer> bonusSubRace = new HashMap<>();
+        bonusSubRace.put(AbilitiesModifierEnum.CONSTITUTION, 1);
+        subRaceCharacter.setAbilitiesAndBonus(bonusSubRace);
+        HashMap<String, String> descritionSubRace = new HashMap<>();
+        descritionSubRace.put("Consumo Radiante", "A partir do nível 3, uma vez por dia pode libertar energia celestial por 1 minuto ou até terminar o efeito com ação bônus. Durante o efeito emana luz brilhante a 3m e luz baixa em mais 3m. Ao final de seu turno você e criaturas a até 3m sofrem ½ seu nível como dano radiante, e uma vez por turno causa +nível dano radiante em um de seus ataques ou magias.");
+        subRaceCharacter.setAdditional_data(descritionSubRace);
+
+        raceCharacter.setSubRace(subRaceCharacter);
+
+        return raceCharacter;
+    }
 }

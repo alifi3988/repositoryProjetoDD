@@ -6,9 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class RaceCharacter extends BuildRace {
 
     private SubRaceCharacter subRace;

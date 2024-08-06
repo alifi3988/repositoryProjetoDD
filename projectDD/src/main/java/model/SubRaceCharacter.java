@@ -8,7 +8,4 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class SubRaceCharacter extends BuildRace{
-
-}
+public class SubRaceCharacter extends BuildRace{}
